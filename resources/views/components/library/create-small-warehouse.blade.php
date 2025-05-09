@@ -31,7 +31,7 @@
             <!-- Filter dan Search -->
             <form action="{{ route('library.small.warehouse') }}" method="GET" class="mb-4" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Dari Tanggal</label>
                             <input type="date" name="date_from" class="form-control"
@@ -43,7 +43,7 @@
                             <label>Sampai Tanggal</label>
                             <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Kategori</label>
@@ -181,81 +181,79 @@
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Data</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Tambah Data Gudang Kecil</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div>
-                    <form method="POST" action="{{route('store.small.warehouse')}}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card card-dark">
-                            <div class="card-body" style="position: relative; max-height: 500px; overflow-y: auto;">
-                                <table class="table table-striped table-bordered">
-                                    <thead class="bg-dark" style="position: sticky; top: 0; z-index: 100;">
-                                        <th>Place</th>
-                                        <th>Rack</th>
-                                        <th>Nama Buku</th>
-                                        <th>Jumlah</th>
-                                        <th>Penerbit</th>
-                                        <th>Tahun</th>
-                                        <th>Kota</th>
-                                        <th>Informasi</th>
-                                        <th>ISBN</th>
-                                        <th>Foto Cover</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody id="scheduleTableBody">
-                                        <tr>
-                                            <td>
-                                                <select name="place[]" class="form-control">
-                                                    @foreach ($places as $place)
-                                                    <option value="{{$place}}">{{$place}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input name="rack[]" type="number" class="form-control" id="rack">
-                                            </td>
-                                            <td>
-                                                <input name="name[]" type="text" class="form-control" id="name">
-                                            </td>
-                                            <td>
-                                                <input name="total[]" type="text" class="form-control" id="total" required>
-                                            </td>
-                                            <td>
-                                                <input name="publisher[]" type="text" class="form-control" id="publisher">
-                                            </td>
-                                            <td>
-                                                <input name="year[]" type="number" class="form-control" id="year">
-                                            </td>
-                                            <td>
-                                                <input name="city[]" type="text" class="form-control" id="city">
-                                            </td>
-                                            <td>
-                                                <textarea name="information[]" class="form-control" id="information" cols="10" rows="1"></textarea>
-                                            </td>
-                                            <td>
-                                                <input name="isbn[]" type="text" class="form-control" id="isbn">
-                                            </td>
-                                            <td>
-                                                <input name="cover_image[]" type="file" class="form-control" id="cover_image" accept=".png, .jpg, .jpeg">
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+            <div class="modal-body" style="max-height:80vh; overflow-y: auto;">
+                <form method="POST" action="{{route('store.small.warehouse')}}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-entry" id="addBook">
+                    <div class="card p-2 bg-light">
+                        <h5 class="fw-bold">#Form 1</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label for="place">Place</label>
+                                    <select name="place[]" class="form-control" required>
+                                        <option value="">-- Pilih Keterangan --</option>
+                                        @foreach ($places as $place)
+                                        <option value="{{$place}}">{{$place}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="rack">Rack</label>
+                                    <input name="rack[]" type="number" class="form-control" id="rack" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="name">Nama Buku</label>
+                                    <input type="text" name="name[]" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="total">Jumlah</label>
+                                    <input type="number" name="total[]" class="form-control" required> 
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="publisher">Penerbit</label>
+                                    <input type="text" name="publisher[]" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah">Tambah <i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label for="year">Tahun</label>
+                                    <input type="number" name="year[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="city">Kota</label>
+                                    <input type="text" name="city[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="image">Cover Image</label>
+                                    <input type="file" name="image[]" class="form-control">
+                                </div>
+                                <div class="form-grou mb-3">
+                                    <label for="isbn">ISBN</label>
+                                    <input type="text" name="isbn[]" class="form-control">
+                                </div>
+                                <div class="form-grou mb-3">
+                                    <label for="information">Information</label>
+                                    <textarea name="information[]" class="form-control" cols="10" rows="1"></textarea>
+                                </div>
                             </div>
                         </div>
-                        <div class="row d-flex justify-content-center">
-                            <input role="button" type="submit" class="btn btn-success center col-12">
-                        </div>
-                    </form>
+                    </div>
                 </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row d-flex justify-content-center">
+                    <input role="button" type="submit" class="btn btn-success center col-12">
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -379,91 +377,106 @@
 
     $(document).ready(function() {
         // Function to add a new row
+        let row = 1;
         function addRow() {
-            var newRow = `<tr>
-                <td>
-                    <select name="place[]" class="form-control">
-                        @foreach ($places as $place)
-                        <option value="{{$place}}">{{$place}}</option>
-                        @endforeach
-                    </select>
-                </td>
-                <td>
-                    <input name="rack[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="name[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="total[]" type="text" class="form-control" required>
-                </td>
-                <td>
-                    <input name="publisher[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="year[]" type="number" class="form-control">
-                </td>
-                <td>
-                    <input name="city[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <textarea name="information[]" class="form-control" cols="10" rows="1"></textarea>
-                </td>
-                <td>
-                    <input name="isbn[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="cover_image[]" type="file" class="form-control" accept=".png, .jpg, .jpeg">
-                </td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
-                </td>
-            </tr>`;
-            $('#scheduleTableBody').append(newRow);
+            row++;
+            const newRow = `
+                <div class="card p-2 bg-light">
+                    <h5 class="fw-bold">#Form ${row}</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="place">Place</label>
+                                <select name="place[]" class="form-control">
+                                    <option value="">-- Pilih Keterangan --</option>
+                                    @foreach ($places as $place)
+                                    <option value="{{$place}}">{{$place}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="rack">Rack</label>
+                                <input name="rack[]" type="number" class="form-control" id="rack">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Nama Buku</label>
+                                <input type="text" name="name[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="total">Jumlah</label>
+                                <input type="number" name="total[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="author">Penerbit</label>
+                                <input type="text" name="author[]" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah">Tambah <i class="fa fa-plus"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris" id="hapus">Hapus <i class="fa fa-times"></i></button>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="year">Tahun</label>
+                                <input type="number" name="year[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="city">Kota</label>
+                                <input type="text" name="city[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="image">Cover Image</label>
+                                <input type="file" name="image[]" class="form-control">
+                            </div>
+                            <div class="form-grou mb-3">
+                                <label for="isbn">ISBN</label>
+                                <input type="text" name="isbn[]" class="form-control">
+                            </div>
+                            <div class="form-grou mb-3">
+                                <label for="information">Information</label>
+                                <textarea name="information[]" class="form-control" cols="10" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('#addBook').append(newRow);
 
-            updateHapusButtons();
+            updateButtons();
         }
 
         // Function to update the visibility of the "Hapus" buttons
-        function updateHapusButtons() {
-            const rows = $('#scheduleTableBody tr');
+        function updateButtons() {
+            const forms = $('#addBook .form-entry');
 
-            rows.each(function(index, row) {
-                var tambahButton = $(row).find('.btn-tambah');
-                var hapusButton = $(row).find('.btn-hapus');
+            forms.each(function (index) {
+                const form = $(this);
+                const btnTambah = form.find('.btn-tambah');
+                const btnHapus = form.find('.btn-hapus');
 
-                if (rows.length === 1) {
-                    // Jika hanya ada satu baris, hanya tampilkan tombol "Tambah"
-                    tambahButton.removeClass('d-none');
-                    hapusButton.addClass('d-none');
+                if (forms.length === 1) {
+                    btnTambah.removeClass('d-none');
+                    btnHapus.addClass('d-none');
                 } else {
-                    // Baris terakhir tampilkan tombol "Tambah" dan "Hapus"
-                    if (index === rows.length - 1) {
-                        tambahButton.removeClass('d-none');
-                        hapusButton.removeClass('d-none');
+                    if (index === 0) {
+                        btnTambah.addClass('d-none');
+                        btnHapus.removeClass('d-none');
                     } else {
-                        // Baris lainnya hanya tampilkan tombol "Hapus"
-                        tambahButton.addClass('d-none');
-                        hapusButton.removeClass('d-none');
+                        btnTambah.removeClass('d-none');
+                        btnHapus.removeClass('d-none');
                     }
                 }
             });
         }
 
         // Event listener for the "Tambah" button
-        $('#scheduleTableBody').on('click', '.btn-tambah', function() {
+        $('#addBook').on('click', '.btn-tambah', function() {
             addRow();
         });
 
         // Event listener for the "Hapus" button
-        $('#scheduleTableBody').on('click', '.btn-hapus', function() {
-            $(this).closest('tr').remove();
-            updateHapusButtons();
+        $('#addBook').on('click', '.btn-hapus', function() {
+            $(this).closest('.card').remove();
+            updateButtons();
         });
-
-        // Initial call to update the visibility of the "Hapus" and "Tambah" buttons
-        updateHapusButtons();
     });
 
     $(document).on('click', '#deleteData', function() {

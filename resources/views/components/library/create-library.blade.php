@@ -31,7 +31,7 @@
             <!-- Filter dan Search -->
             <form action="{{ route('library.add.book') }}" method="GET" class="mb-4">
                 <div class="row">
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Dari Tanggal</label>
                             <input type="date" name="date_from" class="form-control"
@@ -43,7 +43,7 @@
                             <label>Sampai Tanggal</label>
                             <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Kategori</label>
@@ -123,7 +123,6 @@
                             <th>Penerbit</th>
                             <th>Tahun</th>
                             <th>Cover</th>
-                            {{-- <th>Tanggal Dibuat</th> --}}
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -141,20 +140,23 @@
                                 </td>
                                 {{-- <td>{{ $letter->created_at->format('d-m-Y H:i') }}</td> --}}
                                 <td>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            id="deleteData"
-                                            data-id="{{ $letter->id }}"> 
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-warning btn-edit" data-toggle="modal"
-                                            id="editData"
-                                            data-id="{{ $letter->id }}"
-                                        >
-                                            <i class="fa fa-pen"></i> Detail & Edit
-                                        </button>
+                                    <div class="d-grid">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-warning btn-edit" data-toggle="modal"
+                                                id="editData"
+                                                data-id="{{ $letter->id }}"
+                                            >
+                                                <i class="fa fa-pen"></i> Detail & Edit
+                                            </button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                id="deleteData"
+                                                data-id="{{ $letter->id }}"
+                                            > 
+                                                <i class="fa fa-trash"></i> Hapus
+                                            </button>
+                                        </div>  
                                     </div>
                                 </td>
                             </tr>
@@ -176,157 +178,89 @@
     </div>
 </div>
 
-
-
 {{-- ADD DATA --}}
 <div class="modal fade" id="modalAddOtherSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Data</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Tambah Data Buku di Rak Perpustakaan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body" style="max-height:80vh; overflow-y: auto;">
                 <form method="POST" action="{{route('store.library')}}" enctype="multipart/form-data">
-                    @csrf
-
-                    {{-- <div class="card card-dark">
-                        <div class="card-body" style="position: relative; max-height: 500px; overflow-y: auto;">
-                            <table class="table table-striped table-bordered">
-                                <thead class="bg-dark" style="position: sticky; top: 0; z-index: 100;">
-                                    <th>Rack</th>
-                                    <th>No_rack</th>
-                                    <th>Code</th>
-                                    <th>Kategori</th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Publisher</th>
-                                    <th>Year</th>
-                                    <th>Cover Image</th>
-                                    <th>Deskripsi</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody id="scheduleTableBody">
-                                    <tr>
-                                        <td>
-                                            <input name="rack[]" type="text" class="form-control" id="rack">
-                                        </td>
-                                        <td>
-                                            <input name="no_rack[]" type="text" class="form-control" id="norack">
-                                        </td>
-                                        <td>
-                                            <input name="code[]" type="text" class="form-control" id="code">
-                                        </td>
-                                        <td>
-                                            <select required name="category[]" class="form-control" id="category">
-                                                <option value="">-- Kategori --</option>
-                                                @foreach($categories as $el)
-                                                    <option value="{{ $el->id }}">{{ $el->name_subject }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input name="title[]" type="text" class="form-control" id="title" required>
-                                        </td>
-                                        <td>
-                                            <input name="author[]" type="text" class="form-control" id="author">
-                                        </td>
-                                        <td>
-                                            <input name="publisher[]" type="text" class="form-control" id="publisher">
-                                        </td>
-                                        <td>
-                                            <input name="year[]" type="number" class="form-control" id="year">
-                                        </td>
-                                        <td>
-                                            <input name="image[]" type="file" class="form-control" id="image">
-                                        </td>
-                                        <td>
-                                            <textarea name="description[]" class="form-control" id="description" cols="10" rows="1"></textarea>
-                                        </td>
-                                        <td>
-                                            <input name="total[]" type="number" class="form-control" id="total">
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> --}}
-
-                    
-                    <div class="form-entry" id="addBook">
-                        <div class="card p-2 bg-light">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group mb-3">
-                                        <label for="rack">Rack</label>
-                                        <input type="text" name="rack[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="norack">No Rack</label>
-                                        <input type="text" name="no_rack[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="norack">Code</label>
-                                        <input type="text" name="code[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="norack">Kategori</label>
-                                        <select name="category[]" class="form-control" id="category">
-                                            <option value="">-- Kategori --</option>
-                                            @foreach($categories as $el)
-                                                <option value="{{ $el->id }}">{{ $el->name_subject }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="title">Title</label>
-                                        <input type="text" name="title[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="author">Author</label>
-                                        <input type="text" name="author[]" class="form-control">
-                                    </div>
+                @csrf
+                <div class="form-entry" id="addBook">
+                    <div class="card p-2 bg-light">
+                        <h5 class="fw-bold">#Form 1</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label for="rack">Rack</label>
+                                    <input type="text" name="rack[]" class="form-control">
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group mb-3">
-                                        <label for="publisher">Publisher</label>
-                                        <input type="text" name="publisher[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="year">Year</label>
-                                        <input type="number" name="year[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="image">Cover Image</label>
-                                        <input type="file" name="image[]" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="total">Total</label>
-                                        <input type="number" name="total[]" class="form-control">
-                                    </div>
-                                    <div class="form-grou mb-3">
-                                        <label for="description">Description</label>
-                                        <textarea name="description[]" class="form-control" cols="10" rows="1"></textarea>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
+                                <div class="form-group mb-3">
+                                    <label for="norack">No Rack</label>
+                                    <input type="text" name="no_rack[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="norack">Code</label>
+                                    <input type="text" name="code[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="norack">Kategori</label>
+                                    <select name="category[]" class="form-control" id="category">
+                                        <option value="">-- Kategori --</option>
+                                        @foreach($categories as $el)
+                                            <option value="{{ $el->id }}">{{ $el->name_subject }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="title">Title</label>
+                                    <input type="text" name="title[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="author">Author</label>
+                                    <input type="text" name="author[]" class="form-control">
+                                </div>
+                                <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah">Tambah <i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label for="publisher">Publisher</label>
+                                    <input type="text" name="publisher[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="year">Year</label>
+                                    <input type="number" name="year[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="image">Cover Image</label>
+                                    <input type="file" name="image[]" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="total">Total</label>
+                                    <input type="number" name="total[]" class="form-control">
+                                </div>
+                                <div class="form-grou mb-3">
+                                    <label for="description">Description</label>
+                                    <textarea name="description[]" class="form-control" cols="10" rows="1"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <div class="row d-flex justify-content-center">
                     <input role="button" type="submit" class="btn btn-success center col-12">
                 </div>
-            </form>
+                </form>
             </div>
         </div>
     </div>
@@ -400,6 +334,7 @@
                             <textarea name="description" class="form-control" id="description-update"></textarea>
                         </div>
 
+                        <label for="cover-image">Cover Image</label>
                         <div class="form-group">
                             <img src="" alt="" style="width: 64px; height: 96px; mb-2" id="show-image">
                             <input name="image" type="file" class="form-control" id="image-update">
@@ -448,10 +383,12 @@
     });
 
     $(document).ready(function () {
-        // Fungsi tambah form
+        let row = 1;
         function addRow() {
+            row++
             const newRow = `
                 <div class="card p-2 bg-light">
+                    <h5 class="fw-bold">#Form ${row}</h5>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group mb-3">
@@ -471,8 +408,8 @@
                                 <select  name="category[]" class="form-control">
                                     <option value="">-- Kategori --</option>
                                 @foreach($categories as $el)
-                                                    <option value="{{ $el->id }}">{{ $el->name_subject }}</option>
-                                                @endforeach
+                                    <option value="{{ $el->id }}">{{ $el->name_subject }}</option>
+                                @endforeach
                                 </select>
                             </div>
                             <div class="form-group mb-3">
@@ -483,6 +420,9 @@
                                 <label for="author">Author</label>
                                 <input type="text" name="author[]" class="form-control">
                             </div>
+                            
+                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data">Tambah <i class="fa fa-plus"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris">Hapus <i class="fa fa-times"></i></button>
                         </div>
                         <div class="col-6">
                             <div class="form-group mb-3">
@@ -505,8 +445,6 @@
                                 <label for="description">Description</label>
                                 <textarea name="description[]" class="form-control" cols="10" rows="1"></textarea>
                             </div>
-                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data"><i class="fa fa-plus"></i></button>
-                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris"><i class="fa fa-times"></i></button>
                         </div>    
                     <div>
                 </div>

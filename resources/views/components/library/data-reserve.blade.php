@@ -24,9 +24,9 @@
         </div>
         <div class="card-body">
             <!-- Filter dan Search -->
-            <form action="" method="GET" class="mb-4" enctype="multipart/form-data">
+            <form action="{{ route('data.reserve.book') }}" method="GET" class="mb-4" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Dari Tanggal</label>
                             <input type="date" name="date_from" class="form-control"
@@ -38,40 +38,33 @@
                             <label>Sampai Tanggal</label>
                             <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
                         </div>
-                    </div>
+                    </div> --}}
+                    @php
+                        $selectStudent = $form->filter_student;
+                    @endphp
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Students</label>
                             <select name="filter_student" class="form-control">
+                                <option value="" selected>-- Select Student --</option>
                                 @foreach ($students as $student)
-                                <option value="{{$student['id']}}">{{ucwords(strtolower($student['name']))}}</option>
+                                <option value="{{$student['user_id']}}">
+                                    {{ucwords(strtolower($student['name']))}}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 text-left">
                         <div class="form-group">
-                            <label>Pencarian</label>
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Cari surat..."
-                                    value="{{ request('search.') }}">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-search"></i> Cari
-                                    </button>
-                                </div>
-                            </div>
+                            <label></label>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-filter"></i> Filter
+                            </button>
+                            <a href="{{ route('reserve.book') }}" class="btn btn-secondary">
+                                <i class="fa fa-refresh"></i> Reset
+                            </a>
                         </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-filter"></i> Filter
-                        </button>
-                        <a href="{{ route('reserve.book') }}" class="btn btn-secondary">
-                            <i class="fa fa-refresh"></i> Reset
-                        </a>
                     </div>
                 </div>
             </form>

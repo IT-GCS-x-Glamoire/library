@@ -17,6 +17,33 @@
     transition: transform 0.3s;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   }
+
+  .custom-shape-divider-bottom-1745987165 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+  }
+
+  .custom-shape-divider-bottom-1745987165 svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 205px;
+  }
+
+  .custom-shape-divider-bottom-1745987165 .shape-fill {
+      fill: #FFF3C0;
+  }
+
+  .dropdown-item:hover {
+    background-color: transparent;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+
 </style>
 
 <div class="section overflow-hidden hero-content" style="background-image: url('images/symbol-scatter-haikei-14.svg');background-size: ; background-position: ;">
@@ -244,6 +271,11 @@
     </div>
     <a href="/explore-library" class="btn-search-book mt-4 md:mt-0"><span class="dynapuff-regular how-to">Search Book 🔎</span></a>
   </div>
+  <div class="custom-shape-divider-bottom-1745987165">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z" class="shape-fill"></path>
+    </svg>
+  </div>
 </div>
 
 {{-- <div class="custom-shape-divider-bottom-1744618158">
@@ -351,3 +383,4 @@
   @endif
 @endif
 @endsection
+

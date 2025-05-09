@@ -2,6 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library ・ Great Crystal School</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat+Brush&family=Caveat:wght@400..700&family=Chewy&family=DynaPuff&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"></script>
+    {{-- FROALA --}}
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 
     <style>
       html,body {
@@ -716,7 +719,7 @@
         font-style: normal;
         display: inline-block;
         animation: wave 2s infinite ease-in-out;
-        font-size:  clamp(3.8rem, 3vw + 4rem, 6rem);
+        font-size:  clamp(3.8rem, 3vw + 3rem, 6rem);
         color: #ff9000;
         text-shadow: 2px 2px #ffcc00;
         letter-spacing: 4px;
@@ -770,6 +773,7 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         z-index: 1;
         position: relative;
+        height: fit-content;
       }
 
 
@@ -784,7 +788,7 @@
       .flower-shape {
         background-color: #1D3557;
         color: white;
-        padding: 1rem 1.5rem;
+        padding: 2rem 2.2rem;
         border-radius: 50%;
         clip-path: polygon(
           50% 0%, 65% 10%, 85% 15%, 100% 30%, 
@@ -1152,7 +1156,21 @@
         padding: 50px;
         background-color: #A8DADC;
         color: #000;
-        border-radius: 80% 40% 70% 40% / 30% 70% 30% 70% ;
+        border-radius: 70% 60% 70% 60% / 10% 20% 10% 20% ;
+        border: 5px dashed #A8DADC;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-modal-view {
+        padding: 50px;
+        background-color: #A8DADC;
+        color: #000;
+        border-radius: 60% 60% 60% 60% / 15% 15% 5% 5% ;
         border: 5px dashed #A8DADC;
         overflow: hidden;
         display: flex;
@@ -1167,6 +1185,7 @@
         color: #fff;
         padding: 12px;
         border-radius: 80% 60% 80% 60% / 50% 30% 50% 30%;
+        font-size: 3rem;
         /* border: 3px solid #ffde9e; */
         overflow: hidden;
         display: flex;
@@ -1204,27 +1223,25 @@
       .greta-fun-fact {
         position: fixed;
         right: -30px;
-        bottom: -5px;
-        width: 180px;
-        height: 180px;
-        rotate: -10deg;  
+        bottom: -25px;
+        width: 240px;
+        height: 240px;  
         z-index: 999;
         cursor: pointer;
         filter: drop-shadow(30px 30px 30px rgba(0, 0, 0, 0.3));
       }
 
       .greta-tooltip {
-        background-color: #fff;
-        color: #333;
+        color: #fff;
         padding: 10px 15px;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        border-radius: 25% 25% 25% 25% / 45% 45% 45% 45%;
-        margin-right: 32px;
+        border-radius: 45% 55% 15% 20% / 85% 95% 55% 75%;
+        margin-right: 64px;
         font-size: 2rem;
         max-width: fit-content;
         display: none;
-        background-color: #fff3c0;
+        background-color: #1D3557;
         transition: all 0.3s ease-in-out;
       }
 
@@ -1293,7 +1310,7 @@
             <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facility' ? 'active' : '') : '' }}" href="/facility"><span class="visit-label text-lg">
               Facility <i class="bi bi-caret-down-fill"></i>
             </span></a></li>
-            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}" href="/others"><span class="visit-label text-lg">
+            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facts' ? 'active' : '') : '' }}" ><span class="visit-label text-lg">
               Others <i class="bi bi-caret-down-fill"></i>
               </span></a>
               <ul class="dropdown-menu custom-dropdown-menu">
@@ -1344,68 +1361,102 @@
     <div class="mobile-nav-backdrop" id="backdrop" onclick="toggleNavbar()"></div>
   
 
-    {{-- FAKTA MENARIK --}}
+    {{-- SHORT STORY --}}
     <div class="section yellow-bg position-relative" style="min-height:100vh;overflow:hidden;">
       {{-- Parallax Background --}}
       <div class="rellax" data-rellax-speed="-2" style="
-        background-image: url('images/polygon-scatter-haikei-7.svg');
+        background-image: url('images/bg-story.svg');
         background-size: cover;
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        z-index: 0;
+        z-index: 0; 
       "></div>
 
       {{-- Content --}}
-      <div class="container" id="fun-facts"  data-aos="zoom-out-down" style="position: relative;z-index: 2;">
+      <div class="container" id="short-stories"  data-aos="zoom-out-down" style="position: relative;z-index: 2;">
         <h2 class="container-title wave-title mb-5">
-          <span>🌍</span><span>F</span><span>u</span><span>n</span> 
-          <span>F</span><span>a</span><span>c</span><span>t</span><span>s</span>
+          <span>📖</span><span>Sh</span><span>o</span><span>rt</span> 
+          <span>S</span><span>t</span><span>o</span><span>r</span><span>y</span>
         </h2>
 
         <div class="p-4 row justify-content-center" style="z-index: 999;">
-          @foreach($funfacts as $index => $item)
-          @php
-            $positionInRow = $index % 2; // posisi dalam 1 baris (0,1,2)
-            $rowNumber = intdiv($index, 1); // baris keberapa (0,1,2)
-
-            // Default rotasi baris biasa
-            $rotations = [-5, 5];
-            
-            // Khusus untuk baris terakhir kalau card sisa
-            $remainingCards = count($funfacts) % 2;
-            $isLastRow = $index >= count($funfacts) - $remainingCards;
-
-            if ($isLastRow && $remainingCards !== 0) {
-                if ($remainingCards == 0) {
-                    $rotation = 0;
-                } elseif ($remainingCards == 1) {
-                    $rotation = ($positionInRow == 0) ? 5 : -5;
-                }
-            } else {
-                // Untuk baris normal
-                if ($rowNumber % 1 == 0) {
-                    $rotation = $rotations[$positionInRow];
-                } else {
-                    // Kalau baris genap (mulai 0) pakai normal, baris ganjil rotasi dibalik
-                    $rotation = $rotations[1 - $positionInRow];
-                }
-            }
-          @endphp
-          <div class="col-12 col-md-6 col-lg-3 mb-4 fun-fact-card" data-aos="flip-up">
-              <div class="fun-card-custom position-relative d-flex flex-column justify-content-center align-items-center text-center" 
-              style="transform: rotate({{ $rotation }}deg);">
-                  <div class="flower-shape d-flex justify-content-center align-items-center">
-                      <h5 class="text-white fw-bold dynapuff-regular mb-0 px-3 text-xl">{{ $item['title'] }}</h5>
-                  </div>
-                  <img src="{{ asset('images/greta-face.png') }}" alt="Fact Icon" class="img-fluid my-3" style="width: 50%;">
-                  <div class="dynapuff-regular px-3 text-dark text-lg">
-                      {{ $item['description'] }}
-                  </div>
-              </div>
-          </div>
+          @foreach($stories as $index => $item)
+            <div class="col-12 col-md-6 col-lg-4 mb-4 fun-fact-card" data-aos="flip-up">
+              <a data-toggle="modal" data-target="#stories-{{$item->id}}" class="fun-card-custom position-relative d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="flower-shape d-flex justify-content-center align-items-center">
+                  <h5 class="text-white fw-bold dynapuff-regular mb-0 px-3 text-xl">{{ $item['title'] }}</h5>
+                </div>
+                <div class="dynapuff-regular px-3 text-dark text-lg">
+                  Synopsis:
+                  {!! $item['sinopsis'] !!}
+                </div>
+              </a>
+            </div>
           @endforeach
         </div>
       </div>
+
+      {{-- HISTORY --}}
+        @if (session('role') != null)
+          @if (count($histories) !== 0)
+            <h2 class="container-title wave-title mb-5">
+              <span>📖</span><span>Hi</span><span>st</span><span>ory</span> 
+            </h2>
+            @foreach($histories as $index => $history)
+              <div class="col-12 col-md-6 col-lg-4 mb-4 fun-fact-card" data-aos="flip-up">
+                <a data-toggle="modal" data-target="#detail-stories-{{$history->id}}" class="fun-card-custom position-relative d-flex flex-column justify-content-center align-items-center text-center">
+                  <div class="flower-shape d-flex justify-content-center align-items-center">
+                    <h5 class="text-white fw-bold dynapuff-regular mb-0 px-3 text-xl">{{ $history['title'] }}</h5>
+                  </div>
+                  <div class="dynapuff-regular px-3 text-dark text-lg">
+                    Synopsis:
+                    {!! $history['sinopsis'] !!}
+                  </div>
+                </a>
+              </div>
+            @endforeach
+
+            @foreach ($histories as $history)
+          <div class="modal fade" id="detail-stories-{{$item->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+              <div class="modal-content custom-modal-view">
+                <div class="d-flex gap-4">
+                  <h5 class="modal-title custom-modal-title-fun dynapuff-regular fw-bold">{{$item->title}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="{{ route('edit.short.story') }}" class="row text-start" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                      <input name="id" type="number" class="form-control input-custom d-none" value="{{ $item['id'] }}" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="title">Title</label>
+                      <input name="title" type="text" class="form-control input-custom" value="{{ $item['title'] }}" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="title">Synopsis</label>
+                      <textarea id="froala-editor" name="sinopsis">{!! $item['sinopsis'] !!}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="title">Description</label>
+                      <textarea id="froala-editor" name="description">{!! $item['description'] !!}</textarea>
+                    </div>
+                    <div class="form-group d-flex justify-content-end align-item-center text-center gap-2">
+                      <a id="delete-story" data-id="{{$item['id']}}" class="btn btn-danger w-fit fw-bold">Delete</a>
+                      <button role="button" type="submit" class="btn btn-warning w-fit fw-bold">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+          @endif
+        @endif
+      {{-- END HISTORY --}}
 
       <div class="greta-wrapper">
         <a data-toggle="modal" 
@@ -1415,23 +1466,16 @@
             data-target="#modalLogin" 
           @endif
         >
-          <img class="greta-fun-fact" src="{{ asset('/images/greta-fun-fact.png') }}" alt="">
+          <img class="greta-fun-fact" src="{{ asset('/images/greta-writing-rmv.png') }}" alt="">
         </a>
         <div class="greta-tooltip dynapuff-regular text-center">
-          Contribute more fun facts.<br>  
+          🧠 Punya ide cerita seru ??? <br> "Tulis dan unggah ceritamu sekarang – biar teman-teman juga bisa baca!"  
         </div>
-      </div>
-      
+      </div>  
     </div>
-    {{-- END FAKTA MENARIK --}}
+    {{-- END CONTENT --}}
 
-    {{-- <div class="others-section" style="position: relative;">
-      <div style="position: sticky; bottom: 18px; right: 30px;">
-        <img class="greta-fun-fact" src="{{ asset('/images/greta-fun-fact.png') }}" alt="">
-      </div>
-    </div> --}}
-    
-    
+
     <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content custom-modal">
@@ -1443,7 +1487,7 @@
           </div>
           <div class="modal-body">
             <p class="text-danger text-center fw-bold ">Login with your student account. <br>Only student can contribute.</p>
-            <form method="POST" action="{{ route('logins.library') }}">
+            <form method="POST" action="{{ route('login.library') }}">
               @csrf
               <div class="form-group">
                 <label for="name">Username</label>
@@ -1465,35 +1509,60 @@
     </div>
 
     <div class="modal fade" id="modalFunFact" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content custom-modal-fun">
           <div class="d-flex gap-4">
-            <h5 class="modal-title custom-modal-title-fun dynapuff-regular fw-bold">Contribute Fun Fact</h5>
+            <h5 class="modal-title custom-modal-title-fun dynapuff-regular fw-bold">Contribute Short Story</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form method="POST" action="{{ route('store.article.library') }}" class="row">
-              @csrf
-              <div class="form-group">
-                <label for="title">Title</label>
-                <input name="title" type="text" class="form-control input-custom" required>
-              </div>
-    
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" type="text" class="form-control input-custom" required></textarea>
-              </div>
-    
-              <div class="form-group d-flex justify-content-center align-item-center text-center">
-                <input role="button" type="submit" class="btn-custom-login btn btn-primary w-fit fw-bold">
-              </div>
-            </form>
+            <section class="content">
+              <form method="POST" action="{{ route('store.short.story') }}" class="row" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input name="title" type="text" class="form-control input-custom" required>
+                </div>
+      
+                <div class="form-group">
+                  <label for="synopsis">Synopsis</label>
+                  <textarea id="froala-editor" name="synopsis" required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="froala-editor" name="description" required></textarea>
+                </div>
+      
+                <div class="form-group d-flex justify-content-center align-item-center text-center">
+                  <input role="button" type="submit" class="btn-custom-login btn btn-primary w-fit fw-bold">
+                </div>
+              </form>
+            </section>
           </div>
         </div>
       </div>
     </div>
+
+    @foreach($stories as $index => $item)
+    <div class="modal fade" id="stories-{{$item->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content custom-modal-view">
+          <div class="d-flex gap-4">
+            <h5 class="modal-title custom-modal-title-fun dynapuff-regular fw-bold">{{$item->title}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {!! $item['description'] !!}
+          </div>
+        </div>
+      </div>
+    </div>
+    @endforeach
 
     <link rel="stylesheet" href="{{ asset('template') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -1504,7 +1573,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
     <script>
       AOS.init();
 
@@ -1514,6 +1584,56 @@
 
       document.addEventListener("DOMContentLoaded", function() {
         var rellax = new Rellax('.rellax');
+      });
+      
+      new FroalaEditor("textarea#froala-editor", 
+      {
+         imageUploadURL: "/upload-image-short-story", // Endpoint Laravel
+         imageUploadMethod: "POST",
+         imageAllowedTypes: ["jpeg", "jpg", "png", "gif"],
+         imageUploadParams: {
+            _token: document.querySelector('meta[name="csrf-token"]').getAttribute("content"), // Kirim CSRF Token
+         },
+      });
+
+      
+      $(document).on('click', '#delete-story', function() {
+          var id = $(this).data('id');
+          Swal.fire({
+              title: "Are you sure?",
+              text: "Do you want to delete this story!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: "{{ route('delete.short.story', ':id') }}".replace(':id', id),
+                      type: 'DELETE',
+                      data: {
+                        exam_id: id,
+                        _token: '{{ csrf_token() }}'
+                      },
+                      success: function(response) {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully',
+                            text: 'Successfully Delete Data',
+                            timer: 1000,
+                            showConfirmButton: false,
+                          }).then(function() {
+                            location.reload();
+                          });
+                      },
+                      error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert("Error occurred!");
+                      }
+                  });
+              }
+          });
       });
     </script>
 
@@ -1539,7 +1659,28 @@
       });
     </script>
     @endif
-
-
+    
+    @if (session('success_update'))
+    <script>
+      Swal.fire({
+        title: 'Successfully update short story',
+        imageUrl: '{{ asset("images/greta-fun-fact.png") }}', // ganti path sesuai lokasi file kamu
+        imageWidth: 160,
+        imageHeight: 160,
+        timer: 3000, // Swal akan hilang dalam 2000ms (2 detik)
+        showConfirmButton: false, // Sembunyikan tombol "OK",
+        background: '#A8DADC',
+        didOpen: () => {
+          const popup = Swal.getPopup();
+          if (popup) {
+            popup.style.borderRadius = '91% 9% 88% 12% / 10% 91% 9% 90%';
+            popup.style.padding = '1.5rem';
+            popup.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.15)';
+            popup.style.fontFamily = 'DynaPuff, system-ui';
+          }
+        }
+      });
+    </script>
+    @endif
   </body>
 </html>

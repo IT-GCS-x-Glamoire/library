@@ -33,49 +33,9 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Dari Tanggal</label>
-                            <input type="date" name="date_from" class="form-control"
-                                value="{{ request('date_from') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Sampai Tanggal</label>
-                            <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
-                        </div>
-                    </div>
-                    {{-- <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Kategori</label>
-                            <select name="filter_category" class="form-control">
-                                <option value="">Semua Kategori</option>
-                                <option value="PRT" {{ request('filter_category') == 'PRT' ? 'selected' : '' }}>
-                                    Pemberitahuan Orang Tua</option>
-                                <option value="IZN" {{ request('filter_category') == 'IZN' ? 'selected' : '' }}>
-                                    Surat
-                                    Izin</option>
-                                <option value="UND" {{ request('filter_category') == 'UND' ? 'selected' : '' }}>
-                                    Undangan</option>
-                                <option value="SRT" {{ request('filter_category') == 'SRT' ? 'selected' : '' }}>
-                                    Surat
-                                    Resmi</option>
-                                <option value="PMB" {{ request('filter_category') == 'PMB' ? 'selected' : '' }}>
-                                    Pemberitahuan Pembayaran</option>
-                                <option value="SPP" {{ request('filter_category') == 'SPP' ? 'selected' : '' }}>
-                                    Surat
-                                    Peringatan</option>
-                                <option value="SKL" {{ request('filter_category') == 'SKL' ? 'selected' : '' }}>
-                                    Surat Keterangan</option>
-                                <option value="BEA" {{ request('filter_category') == 'BEA' ? 'selected' : '' }}>
-                                    Surat Beasiswa</option>
-                            </select>
-                        </div>
-                    </div> --}}
-                    <div class="col-md-3">
-                        <div class="form-group">
                             <label>Pencarian</label>
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Cari surat..."
+                                <input type="text" name="search" class="form-control" placeholder="Cari Data..."
                                     value="{{ request('search') }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
@@ -180,55 +140,102 @@
             <div class="modal-body">
                 <div>
                     <form method="POST" action="{{route('store.curriculum.old')}}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card card-dark">
-                            <div class="card-body" style="position: relative; max-height: 500px; overflow-y: auto;">
-                                <table class="table table-striped table-bordered">
-                                    <thead class="bg-dark" style="position: sticky; top: 0; z-index: 100;">
-                                        <th>Subject</th>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Publisher</th>
-                                        <th>Total</th>
-                                        <th>Information</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody id="scheduleTableBody">
-                                        <tr>
-                                            <td>
-                                                <input name="subject[]" type="text" class="form-control" id="subject">
-                                            </td>
-                                            <td>
-                                                <input name="code[]" type="text" class="form-control" id="code">
-                                            </td>
-                                            <td>
-                                                <input name="name[]" type="text" class="form-control" id="name">
-                                            </td>
-                                            <td>
-                                                <input name="author[]" type="text" class="form-control" id="author">
-                                            </td>
-                                            <td>
-                                                <input name="publisher[]" type="text" class="form-control" id="publisher">
-                                            </td>
-                                            <td>
-                                                <input name="total[]" type="number" class="form-control" id="number">
-                                            </td>
-                                            <td>
-                                                <textarea name="information[]" class="form-control" id="information" cols="10" rows="1"></textarea>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-center mt-2">
-                                    <input role="button" type="submit" class="btn btn-success center col-12">
+                    @csrf
+                    {{-- <div class="card card-dark">
+                        <div class="card-body" style="position: relative; max-height: 500px; overflow-y: auto;">
+                            <table class="table table-striped table-bordered">
+                                <thead class="bg-dark" style="position: sticky; top: 0; z-index: 100;">
+                                    <th>Subject</th>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Author</th>
+                                    <th>Publisher</th>
+                                    <th>Total</th>
+                                    <th>Information</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody id="scheduleTableBody">
+                                    <tr>
+                                        <td>
+                                            <input name="subject[]" type="text" class="form-control" id="subject">
+                                        </td>
+                                        <td>
+                                            <input name="code[]" type="text" class="form-control" id="code">
+                                        </td>
+                                        <td>
+                                            <input name="name[]" type="text" class="form-control" id="name">
+                                        </td>
+                                        <td>
+                                            <input name="author[]" type="text" class="form-control" id="author">
+                                        </td>
+                                        <td>
+                                            <input name="publisher[]" type="text" class="form-control" id="publisher">
+                                        </td>
+                                        <td>
+                                            <input name="total[]" type="number" class="form-control" id="number">
+                                        </td>
+                                        <td>
+                                            <textarea name="information[]" class="form-control" id="information" cols="10" rows="1"></textarea>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah"><i class="fa fa-plus"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris" id="hapus"><i class="fa fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center mt-2">
+                                <input role="button" type="submit" class="btn btn-success center col-12">
+                            </div>
+                        </div>
+                    </div>   --}}
+
+                    <div class="form-entry" id="addBook">
+                        <div class="card p-2 bg-light">
+                            <h5 class="fw-bold">#Form 1</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group mb-3">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" name="subject[]" class="form-control">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="code">Code</label>
+                                        <input type="text" name="code[]" class="form-control">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name[]" class="form-control">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="author">Author</label>
+                                        <input type="text" name="author[]" class="form-control">
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah">Tambah <i class="fa fa-plus"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1 d-none" title="Hapus Baris" id="hapus">Hapus <i class="fa fa-times"></i></button>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group mb-3">
+                                        <label for="publisher">Publisher</label>
+                                        <input type="text" name="publisher[]" class="form-control">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="total">Total</label>
+                                        <input type="number" name="total[]" class="form-control">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="information">Information</label>
+                                        <textarea name="information[]"  class="form-control" cols="10" rows="1"></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row d-flex justify-content-center">
+                        <input role="button" type="submit" class="btn btn-success center col-12">
+                    </div>
                     </form>
                 </div>
             </div>
@@ -247,49 +254,52 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('update.curriculum.old') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('update.curriculum.old') }}" enctype="multipart/form-data" class="row">
                     @csrf
-                    <div class="form-group d-none">
-                        <input name="id" type="number" class="form-control" id="id-update" required>
+                    <div class="col-6">
+                        <div class="form-group d-none">
+                            <input name="id" type="number" class="form-control" id="id-update" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input name="subject" type="text" class="form-control" id="subject-update" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="code">Code</label>
+                            <input name="code" type="text" class="form-control" id="code-update" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input name="name" type="text" class="form-control" id="name-update" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <input name="author" type="text" class="form-control" id="author-update" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input name="subject" type="text" class="form-control" id="subject-update" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="code">Code</label>
-                        <input name="code" type="text" class="form-control" id="code-update" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input name="name" type="text" class="form-control" id="name-update" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="author">Author</label>
-                        <input name="author" type="text" class="form-control" id="author-update" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="publisher">Publisher</label>
-                        <input name="publisher" type="text" class="form-control" id="publisher-update" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="total">Total</label>
-                        <input name="total" type="number" class="form-control" id="total-update" required>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="publisher">Publisher</label>
+                            <input name="publisher" type="text" class="form-control" id="publisher-update" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="total">Total</label>
+                            <input name="total" type="number" class="form-control" id="total-update" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="information">Information</label>
+                            <input name="information" type="text" class="form-control" id="information-update" required>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="information">Information</label>
-                        <input name="information" type="text" class="form-control" id="information-update" required>
-                    </div>
-
-                    <div class="mt-2 d-flex justify-content-center">
-                        <input role="button" type="submit" class="btn btn-success col-12" id="submit-edit">
+                    <div class="col-12">
+                        <input role="button" type="submit" class="btn btn-success w-100" id="submit-edit">
                     </div>
                 </form>
             </div>
@@ -330,80 +340,91 @@
     });
 
     $(document).ready(function() {
-        // Function to add a new row
+        let row = 1;
         function addRow() {
-            var newRow = `<tr>
-                <td>
-                    <input name="subject[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="code[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="name[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="author[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="publisher[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <input name="total[]" type="number" class="form-control">
-                </td>
-                <td>
-                    <input name="information[]" type="text" class="form-control">
-                </td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data"><i class="fa fa-plus"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris"><i class="fa fa-times"></i></button>
-                </td>
-            </tr>`;
+            row++;
+            var newRow = `
+                <div class="card p-2 bg-light">
+                    <h5 class="fw-bold">#Form ${row}</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="subject">Subject</label>
+                                <input type="text" name="subject[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="code">Code</label>
+                                <input type="text" name="code[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Name</label>
+                                <input type="text" name="name[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="author">Author</label>
+                                <input type="text" name="author[]" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-success btn-sm btn-tambah mt-1" title="Tambah Data" id="tambah">Tambah <i class="fa fa-plus"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm btn-hapus mt-1" title="Hapus Baris" id="hapus">Hapus <i class="fa fa-times"></i></button>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label for="publisher">Publisher</label>
+                                <input type="text" name="publisher[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="total">Total</label>
+                                <input type="number" name="total[]" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="information">Information</label>
+                                <textarea name="information[]"  class="form-control" cols="10" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-            $('#scheduleTableBody').append(newRow);
+            $('#addBook').append(newRow);
 
             updateHapusButtons();
         }
 
         // Function to update the visibility of the "Hapus" buttons
         function updateHapusButtons() {
-            const rows = $('#scheduleTableBody tr');
+            const forms = $('#addBook .form-entry');
 
-            rows.each(function(index, row) {
-                var tambahButton = $(row).find('.btn-tambah');
-                var hapusButton = $(row).find('.btn-hapus');
+            forms.each(function (index) {
+                const form = $(this);
+                const btnTambah = form.find('.btn-tambah');
+                const btnHapus = form.find('.btn-hapus');
 
-                if (rows.length === 1) {
-                    // Jika hanya ada satu baris, hanya tampilkan tombol "Tambah"
-                    tambahButton.removeClass('d-none');
-                    hapusButton.addClass('d-none');
+                if (forms.length === 1) {
+                    btnTambah.removeClass('d-none');
+                    btnHapus.addClass('d-none');
                 } else {
-                    // Baris terakhir tampilkan tombol "Tambah" dan "Hapus"
-                    if (index === rows.length - 1) {
-                        tambahButton.removeClass('d-none');
-                        hapusButton.removeClass('d-none');
+                    if (index === 0) {
+                        btnTambah.addClass('d-none');
+                        btnHapus.removeClass('d-none');
                     } else {
-                        // Baris lainnya hanya tampilkan tombol "Hapus"
-                        tambahButton.addClass('d-none');
-                        hapusButton.removeClass('d-none');
+                        btnTambah.removeClass('d-none');
+                        btnHapus.removeClass('d-none');
                     }
                 }
             });
         }
 
         // Event listener for the "Tambah" button
-        $('#scheduleTableBody').on('click', '.btn-tambah', function() {
+        $('#addBook').on('click', '.btn-tambah', function() {
             addRow();
         });
 
         // Event listener for the "Hapus" button
-        $('#scheduleTableBody').on('click', '.btn-hapus', function() {
-            $(this).closest('tr').remove();
+        $('#addBook').on('click', '.btn-hapus', function() {
+            row--;
+            $(this).closest('.card').remove();
             updateHapusButtons();
         });
-
-        // Initial call to update the visibility of the "Hapus" and "Tambah" buttons
-        updateHapusButtons();
     });
 
     $(document).on('click', '#deleteData', function() {

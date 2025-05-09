@@ -24,6 +24,7 @@ use App\Models\Visit_student;
 use App\Models\User;
 use App\Models\Article_library;
 use App\Models\Plan_visit;
+use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Exception;
 
@@ -40,7 +41,99 @@ class LibraryController extends Controller
         $categories = Subject::orderBy('name_subject', 'ASC')->get();
         $books = Book::paginate(5);
 
-        return view('components.library.index', compact('categories', 'books'));
+        // Ambil data dari semua tabel dan sesuaikan format kolom
+        $history = collect();
+
+        // Book
+        $history = $history->merge(
+            Book::select('title as name', 'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Buku Perpustakaan',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+
+        // Cupboard_three_level
+        $history = $history->merge(
+            Cupboard_three_level::select('name',  'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Lemari Buku 3 Tingkat',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+
+        // Cupboard_cd_book
+        $history = $history->merge(
+            Cupboard_cd_book::select('name', 'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Lemari CD & Buku',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+        
+        $history = $history->merge(
+            Curriculum_old::select('name',  'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Kurikulum Lama',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+
+        $history = $history->merge(
+            Lemari_cd::select('name', 'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Lemari CD',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+
+        $history = $history->merge(
+            Small_warehouse_library::select('name', 'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Gudang Kecil',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+        
+        $history = $history->merge(
+            Reference_book::select('name', 'created_at')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'table' => 'Reference Book',
+                    'name' => $item->name,
+                    'created_at' => $item->created_at,
+                ];
+            })
+        );
+
+        $history = $history->sortByDesc('created_at')->values();
+
+        return view('components.library.index', compact('categories', 'books', 'history'));
     }
 
     public function actionLoginLibrary(Request $request)
@@ -274,7 +367,9 @@ class LibraryController extends Controller
         }
 
         $categories = Subject::orderBy('name_subject', 'ASC')->get();
-        $books = Cupboard_cd_book::paginate(5);
+        $books = $books->orderBy('cupboard', 'ASC')
+        ->orderBy('rack', 'ASC')
+        ->orderBy('no', 'ASC')->paginate(5);
 
         return view('components.library.create-cd-book', compact('categories', 'books'));
     }
@@ -530,7 +625,7 @@ class LibraryController extends Controller
         ];
 
         $categories = Subject::orderBy('name_subject', 'ASC')->get();
-        $books = $books->paginate(20);
+        $books = $books->orderBy('place')->paginate(10);
 
         return view('components.library.create-small-warehouse', compact('categories', 'books', 'places'));
     }
@@ -538,8 +633,8 @@ class LibraryController extends Controller
     public function storeSmallWarehouse(Request $request){
         for($i=0; $i<count($request->place); $i++){
             $filePath = null;
-            if ($request['cover_image'][$i] != null) {
-                $filePath = $request->file('cover_image')[$i]->store('library', 'public');
+            if ($request['image'][$i] != null) {
+                $filePath = $request->file('image')[$i]->store('library', 'public');
             }
 
             Small_warehouse_library::create([
@@ -649,10 +744,11 @@ class LibraryController extends Controller
         }
 
         $categories = Subject::orderBy('name_subject', 'ASC')->get();
-        $books = $books->orderBy('rack', 'ASC')->paginate(5);
+        $books = $books->orderBy('rack', 'ASC')->paginate(20);
 
         return view('components.library.create-reference-book', compact('categories', 'books'));
     }
+
 
     public function storeReferenceBook(Request $request){
         for($i=0; $i<count($request->rack); $i++){
@@ -907,9 +1003,9 @@ class LibraryController extends Controller
 
     public function others(){
         session()->flash('page',  $page = (object)[
-            'page' => 'others',
+            'page' => 'facts',
         ]);
-        $funfacts = Article_library::get();
+        $funfacts = Article_library::where('post', true)->get();
         return view('components.library.others', compact('funfacts'));
     }
 
@@ -1001,26 +1097,36 @@ class LibraryController extends Controller
         return response()->json(['data' => $book]);
     }
 
-    public function reserve()
+    public function reserve(Request $request)
     {
         session()->flash('page', (object)[
             'page' => 'reserve',
             'child' => 'reserve',
         ]);
 
+        $form = (object)[
+            'filter_student' => $request->filter_student ?? null,
+        ];
+        
         // Ambil semua data student dari SIAMIK dan cache selama 10 menit
         $students = Cache::remember('students_from_siamik', 600, function () {
             $response = Http::timeout(5)->get('http://127.0.0.1:8080/api/get-data-students');
             return $response->ok() ? $response->json() : [];
         });        
-
+        
         // Ubah array student jadi associative array berdasarkan user_id
         $studentsById = collect($students)->keyBy('user_id');
-
-        // Ambil data reserve dan paginasi
-        $data = Reserve_book::with('book')
-            ->orderBy('created_at', 'DESC')
-            ->paginate(20);
+        
+        // Bangun query Reserve_book
+        $query = Reserve_book::with('book')->orderBy('created_at', 'DESC');
+        
+        // Filter berdasarkan student jika tersedia
+        if (!is_null($form->filter_student)) {
+            $query->where('user_id', $form->filter_student);
+        }
+        
+        // Ambil hasil query dengan pagination
+        $data = $query->paginate(20);
 
         // Inject data student dari cache ke tiap item berdasarkan user_id
         $data->getCollection()->transform(function ($item) use ($studentsById) {
@@ -1028,7 +1134,7 @@ class LibraryController extends Controller
             return $item;
         });
 
-        return view('components.library.data-reserve', compact('data', 'students'));
+        return view('components.library.data-reserve', compact('data', 'students', 'form'));
     }
 
     public function donePick($id){
@@ -1085,12 +1191,13 @@ class LibraryController extends Controller
                 ]);
                 
                 session()->flash('success');
-                return redirect()->back();
+                return redirect()->back()->withFragment('filling-form');
             }
         }
         else{
             session()->flash('error', 'User tidak ditemukan');
-            return redirect()->back();
+            return redirect()->back()->withFragment('filling-form')
+            ;
         }
     }
 
@@ -1101,8 +1208,20 @@ class LibraryController extends Controller
         ]);
 
         // $students = Student::where('is_active', 1)->orderBy('name', "ASC")->get();
-        $data = Visit_student::with(['student.grade'])->orderBy('created_at', 'DESC')->paginate(5);
-        // dd($data);
+        $data = Visit_student::orderBy('created_at', 'DESC')->paginate(5);
+
+        $students = Cache::remember('students_from_siamik', 600, function () {
+            $response = Http::timeout(5)->get('http://127.0.0.1:8080/api/get-data-students');
+            return $response->ok() ? $response->json() : [];
+        });        
+        
+        $studentsById = collect($students)->keyBy('user_id');
+        
+        $data->getCollection()->transform(function ($dt) use ($studentsById) {
+            $dt->name = $studentsById[$dt->user_id]['name'] ?? null;
+            return $dt;
+        });
+
         return view('components.library.visitor', compact('data', 'students'));
     }
 
@@ -1140,29 +1259,33 @@ class LibraryController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'author' => "Admin",
+                'post' => TRUE,
             ]);
+            session()->flash('success', 'Data berhasil ditambahkan');
+            return redirect()->back();
         }
         else{
             Article_library::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'author' => session('role'),
+                'post' => FALSE,
             ]);
+            session()->flash('success');
+            return redirect()->back();
         }
 
-        session()->flash('success', 'Data berhasil ditambahkan');
-        return redirect()->back();
     }
 
-    public function editArticle($id){
+    public function editArticleLibrary($id){
         session()->flash('page',  $page = (object)[
             'page' => 'library',
             'child' => 'library',
         ]);
 
-        $data = Article_library::find($id);
-        
-        return view('components.library.edit-article-library', compact('data'));
+        $data = Article_library::where('id', $id)->first();
+
+        return response()->json(['data' => $data]);
     }
 
     public function updateArticle(Request $request){
@@ -1174,10 +1297,9 @@ class LibraryController extends Controller
         Article_library::where('id', $request->id)->update([
             'title' => $request->title,
             'description' => $request->description,
-            'author' => session('role'),
         ]);
 
-        session()->flash('success');
+        session()->flash('success', 'Data berhasil diubah');
         return redirect()->back();
     }
 
@@ -1240,6 +1362,18 @@ class LibraryController extends Controller
         Plan_visit::where('id', $id)->update([
             'status' => 'cancel',
         ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function changeStatusArticleLibrary($id){
+        $article = Article_library::find($id);
+        if($article->post == 1){
+            $article->post = 0;
+        }else{
+            $article->post = 1;
+        }
+        $article->save();
 
         return response()->json(['success' => true]);
     }

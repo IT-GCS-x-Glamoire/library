@@ -3,7 +3,18 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\StoryController;
 use Illuminate\Http\Request;
+
+Route::post('/upload-image-short-story', function (Request $request) {
+    if ($request->hasFile('file')) {
+       $file = $request->file('file');
+       $path = $file->store('image-short-story', 'public');
+       return response()->json(['link' => asset('storage/' . $path)]);
+    }
+    return response()->json(['error' => 'No file uploaded'], 400);
+ })->name('upload.image');
+ 
 
 Route::post('/login-library', [LibraryController::class, 'actionLoginLibrary'])->name('login.library');
 Route::get('/logout', [LibraryController::class, 'logout']);
@@ -69,10 +80,11 @@ Route::middleware(['auth.login', 'role:library'])->group(function () {
     Route::post('/visit-student', [LibraryController::class, 'visitStudent'])->name('visit.student');
     
     Route::get('/create-article-library',[LibraryController::class, 'articleAdmin'])->name('create.article.library');
-    Route::get('/article/edit',[LibraryController::class, 'editArticle'])->name('edit.article.library');
-    Route::post('/post-article',[LibraryController::class, 'storeArticle'])->name('store.article.library');
+    Route::get('/data/article-library/edit/{id}', [LibraryController::class, 'editArticleLibrary'])->name('edit.article.library');
     Route::post('/update-article',[LibraryController::class, 'updateArticle'])->name('update.article.library');
+    Route::post('/change-status/article-library/{id}',[LibraryController::class, 'changeStatusArticleLibrary'])->name('change.status.article.library');
     Route::delete('/delete-article/{id}',[LibraryController::class, 'deleteArticle'])->name('delete.article.library');
+    
     Route::post('/upload-image-article', function (Request $request) {
        if ($request->hasFile('file')) {
           $file = $request->file('file');
@@ -87,6 +99,11 @@ Route::middleware(['auth.login', 'role:library'])->group(function () {
     Route::post('/cancel/plan/visit/{id}', [LibraryController::class, 'cancelPlanVisit'])->name('cancel.plan.visit');
 });
  
+Route::post('/post-article',[LibraryController::class, 'storeArticle'])->name('store.article.library');
+Route::post('/post-short-story',[StoryController::class, 'storeShortStory'])->name('store.short.story');
+Route::post('/edit/article-library', [StoryController::class, 'editShortStory'])->name('edit.short.story');
+Route::delete('/delete-story/{id}',[StoryController::class, 'deleteShortStory'])->name('delete.short.story');
+       
 Route::get('/',[LibraryController::class, 'libraryPublic'])->name('library.public');
 Route::get('/booking',[LibraryController::class, 'booking']);
 Route::get('/explore-library',[LibraryController::class, 'explore']);
@@ -98,4 +115,5 @@ Route::get('/facility',[LibraryController::class, 'facility'])->name('facility.l
 Route::post('/search-book',[LibraryController::class, 'search'])->name('search'); 
 Route::post('/cancel/{id}', [LibraryController::class, 'cancel'])->name('cancel.book');
 Route::post('/plan-visit', [LibraryController::class, 'planVisit'])->name('action.plan.visit');
-Route::get('/others', [LibraryController::class, 'others'])->name('others');
+Route::get('/fun-facts', [LibraryController::class, 'others'])->name('fun.facts');
+Route::get('/short-stories', [StoryController::class, 'viewStory'])->name('short-stories');

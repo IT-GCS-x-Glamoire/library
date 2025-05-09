@@ -26,99 +26,43 @@
                 data-accordion="true">
 
                 <!-- DASHBOARD -->
-                @if (session('role') == 'superadmin')
-                    <li class="nav-item">
-                        <a href="{{ url('/superadmin/dashboard') }}"
-                            class="nav-link {{ session('page') && session('page')->page == 'dashboard' ? 'active' : '' }}">
-                            <i class="mr-2">
-                                <img loading="lazy" src="{{ asset('images/dashboard.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold ">Dashboard</p>
-                        </a>
-                    </li>
-                @elseif (session('role') == 'admin')
-                    <li class="nav-item">
-                        <a href="{{ url('/admin/dashboard') }}"
-                            class="nav-link {{ session('page') && session('page')->page == 'dashboard' ? 'active' : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/dashboard.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold ">Dashboard</p>
-                        </a>
-                    </li>
-                @elseif (session('role') == 'teacher')
-                    <li class="nav-item">
-                        <a href="{{ url('/teacher/dashboard') }}"
-                            class="nav-link {{ session('page') && session('page')->page == 'dashboard' ? 'active' : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/dashboard.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold ">Dashboard</p>
-                        </a>
-                    </li>
-                @elseif (session('role') == 'student' || session('role') == 'parent')
-                    <li class="nav-item">
-                        <a href="{{ url('/' . session('role') . '/dashboard') }}"
-                            class="nav-link {{ session('page') && session('page')->page == 'dashboard' ? 'active' : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/dashboard.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold ">Dashboard</p>
-                        </a>
-                    </li>
-                @elseif (session('role') == 'library')
-                    <li class="nav-item">
-                        <a href="{{ url('/' . session('role') . '/dashboard') }}"
-                            class="nav-link {{ session('page') && session('page')->page == 'dashboard' ? 'active' : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/dashboard.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold ">Dashboard</p>
-                        </a>
-                    </li>
-                @endif
+                {{-- <li c --}}
                 <!-- END DASHBOARD -->
 
                 {{-- LIBRARY --}}
                 @if (session('role') == 'superadmin' || session('role') == 'library')
+                    @if (session('role') != "teacher" || session('role') !== "parent")
                     <li class="nav-item">
-                        <a href="/library" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'library' ? 'active' : '') : '' }}">
+                        <a href="/" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'library-public' ? 'active' : '') : '' }}">
                             <i class="">
                                 <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
                                     style="width: 32px; height: 32px; object-fit: cover;">
                             </i>
+                            <p class="text-bold">
+                                Landing Page Perpustakaan
+                            </p>
+                        </a>
+                    </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a href="/library" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'library' ? 'active' : '') : '' }}">
+                            {{-- <i class="">
+                                <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
+                                    style="width: 32px; height: 32px; object-fit: cover;">
+                            </i> --}}
                             <p class="text-bold">
                                 Data
                             </p>
                         </a>
                     </li>
-                    
-                    @if (session('role') != "teacher" || session('role') !== "parent")
-                    <li class="nav-item">
-                        <a href="/library-public" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'library-public' ? 'active' : '') : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
-                            <p class="text-bold">
-                                Perpustakaan
-                            </p>
-                        </a>
-                    </li>
-                    @endif
-                        
 
                     <li class="nav-item">
                         <a href="/reserve-book" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'reserve' ? 'active' : '') : '' }}">
-                            <i class="">
+                            {{-- <i class="">
                                 <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
                                     style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
+                            </i> --}}
                             <p class="text-bold">
                                 Peminjaman
                             </p>
@@ -126,21 +70,21 @@
                     </li>
                     <li class="nav-item">
                         <a href="/visitor" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'visitor' ? 'active' : '') : '' }}">
-                            <i class="">
-                                <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
+                                {{-- <i class="">
+                                    <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
+                                        style="width: 32px; height: 32px; object-fit: cover;">
+                                </i> --}}
                             <p class="text-bold">
-                                Pengunjung
+                                Kunjungan Siswa
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/plan-visit" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'plan visit' ? 'active' : '') : '' }}">
-                            <i class="">
+                            {{-- <i class="">
                                 <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
                                     style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
+                            </i> --}}
                             <p class="text-bold">
                                 Pengunjung Umum
                             </p>
@@ -148,12 +92,23 @@
                     </li>
                     <li class="nav-item">
                         <a href="/create-article-library" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'article' ? 'active' : '') : '' }}">
-                            <i class="">
+                            {{-- <i class="">
                                 <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
                                     style="width: 32px; height: 32px; object-fit: cover;">
-                            </i>
+                            </i> --}}
                             <p class="text-bold">
                                 Fun Fact
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/create-article-library" class="nav-link {{ session('page') && session('page')->child ? (session('page')->child == 'article' ? 'active' : '') : '' }}">
+                            {{-- <i class="">
+                                <img loading="lazy" src="{{ asset('images/library.png') }}" class="" alt="User Image"
+                                    style="width: 32px; height: 32px; object-fit: cover;">
+                            </i> --}}
+                            <p class="text-bold">
+                                Short Story
                             </p>
                         </a>
                     </li>

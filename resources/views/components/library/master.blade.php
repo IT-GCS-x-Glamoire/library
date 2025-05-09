@@ -64,7 +64,7 @@
         }
     
         .hero-title {
-          font-size:  clamp(3rem, 5vw + 1rem, 12rem);
+          font-size:  clamp(4rem, 1rem, 12rem);
           color: #ff9000;
           letter-spacing: 1px;
           text-shadow: 2px 2px #ffcc00;
@@ -420,58 +420,8 @@
           transform: scale(1.1);
         }
     
-        .custom-dropdown-menu {
-          opacity: 0;
-          visibility: hidden;
-          transform: translateY(10px);
-        }
-    
-        .custom-dropdown:hover .custom-dropdown-menu {
-          display: block;
-          opacity: 1;
-          visibility: visible;
-          transform: translateY(0);
-        }
-        
-        /* Dropdown hover behavior */
-        .custom-dropdown:hover .custom-dropdown-menu {
-          display: block;
-        }
-    
         .custom-dropdown {
           position: relative;
-        }
-    
-        /* Ubah ini */
-        .custom-dropdown-menu {
-          display: none;
-          position: absolute;
-          top: 100%; /* langsung di bawah tombol */
-          left: 0;
-          background-color: #fff;
-          border: 2px dashed #000;
-          z-index: 999;
-          width: 240px;
-          padding: 1px 0;
-          box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-        }
-    
-        .custom-dropdown-menu li {
-          padding: 5px;
-        }
-    
-        .custom-dropdown-menu li a {
-          font-weight: bold;
-          color: #000000;
-          text-decoration: none;
-        }
-    
-        .custom-dropdown-menu li a:hover {
-          background-color: #ff9000;
-        }
-    
-        .custom-dropdown-menu li:hover {
-          background-color: #ff9000;
         }
     
         /* Fullscreen mobile nav */
@@ -1010,9 +960,7 @@
             transition: transform 0.3s;
             transform: translateX(10px);
           } 
-    
-          
-    
+
           .description {
             font-size: 2rem;
           }
@@ -1052,31 +1000,30 @@
           }
         }
     
-          .custom-modal-title {
-            background-color: #fff3c0;
-            color: #000;
-            padding: 12px;
-            border-radius: 40% 60% 80% 70% / 20% 40% 40% 20%;
-            border: 3px solid #ffde9e;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-    
-          .custom-modal {
-            padding: 50px;
-            background-color: #ffde9e;
-            color: #000;
-            /* border-radius: 70% 80% 60% 80% / 50% 40% 70% 40%; */
-            border-radius: 76% 24% 64% 36% / 16% 70% 30% 84% ;
-            border: 3px solid #ffcc00;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        .custom-modal-title {
+          background-color: #fff3c0;
+          color: #000;
+          padding: 12px;
+          border-radius: 40% 60% 80% 70% / 20% 40% 40% 20%;
+          border: 3px solid #ffde9e;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+  
+        .custom-modal {
+          padding: 50px;
+          background-color: #ffde9e;
+          color: #000;
+          border-radius: 76% 24% 64% 36% / 16% 70% 30% 84% ;
+          border: 3px solid #ffcc00;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.3s;
+          box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -1085,39 +1032,39 @@
     @include('components.library.navbar')
 
     <section class="content">
-        @yield('content')
+      @yield('content')
     </section>
 
     <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-          <div class="modal-content custom-modal">
-            <div class="d-flex gap-4">
-              <h5 class="modal-title custom-modal-title fw-bold">Login First</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p class="text-danger text-center fw-bold">Login with your student account. <br> If you're external people you can read the book in place</p>
-              <form method="POST" action="{{ route('login.library') }}">
-                @csrf
-                <div class="form-group">
-                  <label for="name">Username</label>
-                  <input name="username" type="text" class="form-control input-custom" required>
-                </div>
-      
-                <div class="form-group">
-                  <label for="name">Password</label>
-                  <input name="password" type="text" class="form-control input-custom" required >
-                </div>
-      
-                <div class="form-group d-flex justify-content-center align-item-center text-center">
-                  <input role="button" type="submit" class="btn-custom-login btn btn-success w-fit fw-bold">
-                </div>
-              </form>
-            </div>
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content custom-modal">
+          <div class="d-flex gap-4">
+            <h5 class="modal-title custom-modal-title fw-bold">Login First</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="text-danger text-center fw-bold">Login with your student account. <br> If you're external people you can read the book in place</p>
+            <form method="POST" action="{{ route('login.library') }}">
+              @csrf
+              <div class="form-group">
+                <label for="name">Username</label>
+                <input name="username" type="text" class="form-control input-custom" required>
+              </div>
+    
+              <div class="form-group">
+                <label for="name">Password</label>
+                <input name="password" type="text" class="form-control input-custom" required >
+              </div>
+    
+              <div class="form-group d-flex justify-content-center align-item-center text-center">
+                <input role="button" type="submit" class="btn-custom-login btn btn-success w-fit fw-bold">
+              </div>
+            </form>
           </div>
         </div>
+      </div>
     </div>
 
     <link rel="stylesheet" href="{{ asset('template') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
@@ -1130,95 +1077,94 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
-
     <script>
-        AOS.init();
+      AOS.init();
 
-        function toggleMobileNav() {
-            document.getElementById('mobileNavOverlay').classList.toggle('show');
-        }
+      function toggleMobileNav() {
+          document.getElementById('mobileNavOverlay').classList.toggle('show');
+      }
 
-        function logout(){
-            Swal.fire({
-            title: 'Are you sure want to logout',
-            imageUrl: '{{ asset("images/confuse.png") }}',
-            imageWidth: 120,
-            imageHeight: 120,
-            showCancelButton: true,
-            confirmButtonText: "Yes, Exit!",
-            cancelButtonText: "Cancel",
-            background: "#fff3c0", // light background
-            color: "#333",
-            confirmButtonColor: "#43aa8b",
-            cancelButtonColor: "#f94144",
-            customClass: {
-            popup: 'rounded-4 shadow-lg px-4 py-3',
-            title: 'fw-bold text-dark',
-            confirmButton: 'btn btn-success px-4',
-            cancelButton: 'btn btn-danger px-4',
-            },
-            showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-            },
-            hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-            }
-        }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                        accepts: {
-                            mycustomtype: "application/x-some-custom-type",
-                        },
-                        url: `/logout`,
-                        type: "GET",
-                        cache: false,
-                    })
-                        .then((res) => {
-                            if (res.success) {
-                                Swal.fire({
-                                    imageUrl: '{{ asset("images/greta-greti-baju-olga.png") }}',
-                                    imageWidth: 120,
-                                    imageHeight: 120,
-                                    showCancelButton: false,
-                                    background: "#fefae0", // light background
-                                    customClass: {
-                                    popup: 'rounded-4 shadow-lg px-4 py-3',
-                                    title: 'fw-bold text-dark',
-                                    confirmButton: 'btn btn-success px-4',
-                                    cancelButton: 'btn btn-danger px-4',
-                                    },
-                                    showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                    }
-                                });
-                                window.location.reload();
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    text: "Something went wrong!",
-                                    footer: '<a href="#">Why do I have this issue?</a>',
-                                });
-                            }
-                        })
-                        .catch((err) => {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: "Something went wrong!",
-                                footer: '<a href="#">Why do I have this issue?</a>',
-                            });
-                        });
-                }
-            });
-        }
+      function logout(){
+          Swal.fire({
+          title: 'Are you sure want to logout',
+          imageUrl: '{{ asset("images/confuse.png") }}',
+          imageWidth: 120,
+          imageHeight: 120,
+          showCancelButton: true,
+          confirmButtonText: "Yes, Exit!",
+          cancelButtonText: "Cancel",
+          background: "#fff3c0", // light background
+          color: "#333",
+          confirmButtonColor: "#43aa8b",
+          cancelButtonColor: "#f94144",
+          customClass: {
+          popup: 'rounded-4 shadow-lg px-4 py-3',
+          title: 'fw-bold text-dark',
+          confirmButton: 'btn btn-success px-4',
+          cancelButton: 'btn btn-danger px-4',
+          },
+          showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+          }
+      }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      headers: {
+                          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                              "content"
+                          ),
+                      },
+                      accepts: {
+                          mycustomtype: "application/x-some-custom-type",
+                      },
+                      url: `/logout`,
+                      type: "GET",
+                      cache: false,
+                  })
+                      .then((res) => {
+                          if (res.success) {
+                              Swal.fire({
+                                  imageUrl: '{{ asset("images/greta-greti-baju-olga.png") }}',
+                                  imageWidth: 120,
+                                  imageHeight: 120,
+                                  showCancelButton: false,
+                                  background: "#fefae0", // light background
+                                  customClass: {
+                                  popup: 'rounded-4 shadow-lg px-4 py-3',
+                                  title: 'fw-bold text-dark',
+                                  confirmButton: 'btn btn-success px-4',
+                                  cancelButton: 'btn btn-danger px-4',
+                                  },
+                                  showClass: {
+                                  popup: 'animate__animated animate__fadeInDown'
+                                  },
+                                  hideClass: {
+                                  popup: 'animate__animated animate__fadeOutUp'
+                                  }
+                              });
+                              window.location.reload();
+                          } else {
+                              Swal.fire({
+                                  icon: "error",
+                                  title: "Oops...",
+                                  text: "Something went wrong!",
+                                  footer: '<a href="#">Why do I have this issue?</a>',
+                              });
+                          }
+                      })
+                      .catch((err) => {
+                          Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: "Something went wrong!",
+                              footer: '<a href="#">Why do I have this issue?</a>',
+                          });
+                      });
+              }
+          });
+      }
     </script>
 </body>

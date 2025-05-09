@@ -194,49 +194,36 @@
         </div>
     </div>
 
-    {{-- <div class="card">
-        <div class="card-header">
-            <h3>Add Book</h3>
-        </div>
-        <div class="card-body">
-            <form action="" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label>Category</label>
-                    <select id="category" name="category" class="form-control @error('category') is-invalid @enderror">
-                        <option value="">-- Pilih Kategori --</option>
-                        @foreach ($categories as $category)
-                            <option value="{{$category->id}}">{{ucwords($category->name_subject)}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Title</label>
-                    <input type="text" name="title" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Author</label>
-                    <input type="text" name="author" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Publisher</label>
-                    <input type="text" name="publisher" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Year</label>
-                    <input type="text" name="year" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Cover Image</label>
-                    <input type="file" name="cover" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label>Deskripsi</label>
-                    <textarea name="content" class="form-control @error('content') is-invalid @enderror">{{ old('content') }}</textarea>
-                </div>
-                <button type="submit" class="btn btn-success">Tambah</button>
-            </form>
-        </div>
-    </div> --}}
+    <h5 class="text-xl text-bold">History Barang Baru Masuk</h5>
 
+    <div class="card mt-4">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Database</th>
+                        <th>Nama Barang</th>
+                        <th>Tanggal Dibuat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($history as $index => $item)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $item['table'] }}</td>
+                            <td>{{ $item['name'] }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d M Y') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+                
+    
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4">
+                {{-- {{ $history->links() }} --}}
+            </div>
+        </div>
+    </div>
 @endsection

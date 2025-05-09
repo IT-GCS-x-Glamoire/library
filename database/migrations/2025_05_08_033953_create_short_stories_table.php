@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('article_libraries', function (Blueprint $table) {
+        Schema::create('short_stories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
-            $table->string('author');
-            $table->boolean('post')->nullable();
+            $table->text('description');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('article_libraries');
+        Schema::dropIfExists('short_stories');
     }
 };

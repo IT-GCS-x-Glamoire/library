@@ -26,7 +26,7 @@
             <!-- Filter dan Search -->
             <form action="" method="GET" class="mb-4" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <div class="form-group">
                             <label>Dari Tanggal</label>
                             <input type="return_date" name="date_from" class="form-control"
@@ -38,18 +38,7 @@
                             <label>Sampai Tanggal</label>
                             <input type="date_return_" name="date_to" class="form-control" value="{{ request('date_to') }}">
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Students</label>
-                            <select name="filter_student" class="form-control">
-                            @foreach ($students as $student)
-                            <option value="{{$student->id}}">{{ucwords(strtolower($student->name))}}</option>
-                            @endforeach
-                                
-                            </select>
-                        </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Pencarian</label>
@@ -85,7 +74,7 @@
                             <th>No</th>
                             <th>Hari</th>
                             <th>Nama</th>
-                            <th>Kelas</th>
+                            {{-- <th>Kelas</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -93,12 +82,11 @@
                             <tr>
                                 <td>{{ $index+1 }}</td>
                                 <td>{{ \Carbon\Carbon::parse($res->created_at)->format('l, d F Y') }}</td>
-                                <td>{{ ucwords(strtolower($res->student['name'])) }}</td>
-                                <td>{{ $res->student->grade['name'] }}-{{ $res->student->grade['class']}}</td>
+                                <td>{{ ucwords(strtolower($res->name)) }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center">Empty Book Data</td>
+                                <td colspan="3" class="text-center">Empty Book Data</td>
                             </tr>
                         @endforelse 
                         </tbody>

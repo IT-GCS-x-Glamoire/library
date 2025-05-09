@@ -27,54 +27,7 @@
     background-color: #ffe8d6;
   }
 
-  .custom-dropdown-menu {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-  }
-
-  .custom-dropdown:hover .custom-dropdown-menu {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
   
-  /* Dropdown hover behavior */
-  .custom-dropdown:hover .custom-dropdown-menu {
-    display: block;
-  }
-
-  /* Fullscreen mobile nav */
-  .mobile-nav-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100%;
-    background-color: #fff3c0;
-    z-index: 9999;
-    display: none;
-    flex-direction: column;
-    justify-content: flex-start;
-    background-image: url(asset('images/school.webp')); /* kalau ingin motif */
-    background-size: cover;
-  }
-
-  /* Show overlay */
-  .mobile-nav-overlay.show {
-    display: flex;
-  }
-
-  /* Menu item styling */
-  .mobile-nav-overlay .nav-link {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 
   .mascot-mobile {
     position: absolute;
@@ -83,97 +36,7 @@
     bottom: 0%;
   }
 
-  .visit-btn {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    border-radius: 4px;
-    transition: transform 0.3s ease;
-  }
-
-  .visit-label {
-    position: relative;
-    z-index: 2;
-    font-weight: bold;
-    color: #000;
-    transition: transform 0.3s ease;
-  }
-
-  .visit-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #ff9000;
-    transform: rotate(-2deg) scale(0.95);
-    transform-origin: center;
-    z-index: 1;
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-    border-radius: 4px;
-    clip-path: polygon(
-      10% 0%, 20% 10%, 35% 5%, 50% 15%, 65% 5%, 80% 10%, 90% 0%, 
-      100% 20%, 95% 35%, 100% 50%, 95% 65%, 100% 80%, 90% 100%, 
-      75% 90%, 60% 95%, 50% 85%, 40% 95%, 25% 90%, 10% 100%, 
-      0% 80%, 5% 65%, 0% 50%, 5% 35%, 0% 20%
-    );
-  }
-
-  /* Hover effect */
-  .visit-btn:hover::before {
-    opacity: 1;
-    transform: rotate(-2deg) scale(1.05);
-    clip-path: polygon(
-      10% 0%, 20% 10%, 35% 5%, 50% 15%, 65% 5%, 80% 10%, 90% 0%, 
-      100% 20%, 95% 35%, 100% 50%, 95% 65%, 100% 80%, 90% 100%, 
-      75% 90%, 60% 95%, 50% 85%, 40% 95%, 25% 90%, 10% 100%, 
-      0% 80%, 5% 65%, 0% 50%, 5% 35%, 0% 20%
-    );
-  }
-
-  /* Optional: text zoom effect on hover */
-  .visit-btn:hover .visit-label {
-    transform: scale(1.2);
-  }
-
-  .custom-dropdown {
-    position: relative;
-  }
-
-  /* Ubah ini */
-  .custom-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%; /* langsung di bawah tombol */
-    left: 0;
-    background-color: #fff;
-    border: 2px dashed #000;
-    z-index: 999;
-    width: 240px;
-    padding: 1px 0;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .custom-dropdown-menu li {
-    padding: 5px;
-  }
-
-  .custom-dropdown-menu li a {
-    font-weight: bold;
-    color: #000000;
-    text-decoration: none;
-  }
-
-  .custom-dropdown-menu li a:hover {
-    background-color: #ff9000;
-  }
-
-  .custom-dropdown-menu li:hover {
-    background-color: #ff9000;
-  }
-
+  
   .modal-header.bg-info {
     background: linear-gradient(90deg, #17a2b8, #138496);
   }
@@ -186,48 +49,6 @@
     background-color: #f9f9f9;
     margin-bottom: 5px;
     border-radius: 0.5rem;
-  }
-  .offcanvas {
-    width: 250px;
-  }
-
-  /* Overlay background */
-  .navbar-collapse {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 150px;
-    background-color: #fff;
-    z-index: 1050;
-    padding-top: 60px;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(-100%);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .navbar-collapse.show {
-    transform: translateX(0);
-  }
-
-  .navbar-toggler {
-    z-index: 1060;
-  }
-
-  /* Optional: dark backdrop */
-  .mobile-nav-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 1040;
-    display: none;
-  }
-
-  .mobile-nav-backdrop.active {
-    display: block;
   }
 
   .dynapuff-regular {
@@ -681,47 +502,6 @@
     z-index: 1;
   }
 
-  .btn-menu {
-    margin-top: 0px;
-    padding: 0px;
-    width: 72px;
-    height: 32px;
-    background-color: #ffde9e;
-    color: #1D3557;
-    clip-path: polygon(
-      10% 0%, 20% 10%, 35% 5%, 50% 15%, 65% 5%, 80% 10%, 90% 0%, 
-      100% 20%, 95% 35%, 100% 50%, 95% 65%, 100% 80%, 90% 100%, 
-      75% 90%, 60% 95%, 50% 85%, 40% 95%, 25% 90%, 10% 100%, 
-      0% 80%, 5% 65%, 0% 50%, 5% 35%, 0% 20%
-    );
-    border: 3px solid #ffde9e;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .btn-menu-top {
-    margin-top: 0px;
-    padding: 0px;
-    width: 72px;
-    height: 32px;
-    background-color: #ffde9e;
-    color: #1D3557;
-    clip-path: polygon(
-      10% 0%, 20% 10%, 35% 5%, 50% 15%, 65% 5%, 80% 10%, 90% 0%, 
-      100% 20%, 95% 35%, 100% 50%, 95% 65%, 100% 80%, 90% 100%, 
-      75% 90%, 60% 95%, 50% 85%, 40% 95%, 25% 90%, 10% 100%, 
-      0% 80%, 5% 65%, 0% 50%, 5% 35%, 0% 20%
-    );
-    border: 3px solid #ffde9e;
-    overflow: hidden;
-    transition: transform 0.3s;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-  }
-
   .custom-swal-popup {
     border-radius: 91% 9% 88% 12% / 10% 91% 9% 90%;
     padding: 1.5rem;
@@ -1089,11 +869,19 @@
   </div>
 </div>
 
+<link rel="stylesheet" href="{{ asset('template') }}/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('template') }}/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> 
 
 @if (session('success'))
   <script>
     Swal.fire({
-      // icon: 'success',
       title: 'Successfully Borrow Book',
       imageUrl: '{{ asset("images/greta-face.png") }}', // ganti path sesuai lokasi file kamu
       imageWidth: 120,
