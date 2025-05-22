@@ -312,7 +312,7 @@
             Facility <i class="bi bi-caret-down-fill"></i>
           </span></a></li>
           <li class="nav-item custom-dropdown">
-            <a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'fun' || session('page')->page == 'story' ? 'active' : '') : '' }}" href="/others">
+            <a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'fun' || session('page')->page == 'story' ? 'active' : '') : '' }}" href="#">
               <span class="visit-label text-lg">
                 Others <i class="bi bi-caret-down-fill"></i>
               </span>

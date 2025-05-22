@@ -20,7 +20,7 @@ class StoryController extends Controller
 
         $stories = Short_story::all();
         
-        if(session('id_user') !== null){
+        if(session('id_user') !== null && session('role') == 'student'){
             $histories = Short_story::where('user_id', session('id_user'))->get();
             return view('components.library.stories', compact('stories', 'histories'));
         }

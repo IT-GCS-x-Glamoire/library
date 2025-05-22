@@ -1293,7 +1293,7 @@
             <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facility' ? 'active' : '') : '' }}" href="/facility"><span class="visit-label text-lg">
               Facility <i class="bi bi-caret-down-fill"></i>
             </span></a></li>
-            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}" href="/others"><span class="visit-label text-lg">
+            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}" href="#"><span class="visit-label text-lg">
               Others <i class="bi bi-caret-down-fill"></i>
               </span></a>
               <ul class="dropdown-menu custom-dropdown-menu">
@@ -1443,7 +1443,7 @@
           </div>
           <div class="modal-body">
             <p class="text-danger text-center fw-bold ">Login with your student account. <br>Only student can contribute.</p>
-            <form method="POST" action="{{ route('logins.library') }}">
+            <form method="POST" action="{{ route('login.library') }}">
               @csrf
               <div class="form-group">
                 <label for="name">Username</label>

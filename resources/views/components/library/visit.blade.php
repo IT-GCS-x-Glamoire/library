@@ -829,7 +829,7 @@
           <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facility' ? 'active' : '') : '' }}" href="/facility"><span class="visit-label text-lg">
             Facility <i class="bi bi-caret-down-fill"></i>
           </span></a></li>
-          <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}" href="/others"><span class="visit-label text-lg">
+          <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}" href="#"><span class="visit-label text-lg">
             Others <i class="bi bi-caret-down-fill"></i>
           </span></a></li>
         </ul>
@@ -858,7 +858,7 @@
         {{ session('page') && session('page')->page ? (session('page')->page == 'explore' ? 'active' : '') : '' }}">Explore <i class="bi bi-caret-down-fill"></i></a>
         <a href="/facility" class="fw-bold nav-link pl-5
         {{ session('page') && session('page')->page ? (session('page')->page == 'facility' ? 'active' : '') : '' }}">Facility <i class="bi bi-caret-down-fill"></i></a>
-        <a href="/others" class="fw-bold nav-link pl-5
+        <a href="#" class="fw-bold nav-link pl-5
         {{ session('page') && session('page')->page ? (session('page')->page == 'others' ? 'active' : '') : '' }}">Other <i class="bi bi-caret-down-fill"></i></a>
         @if (session('role') !== null)
           <button onclick="logout()" id="log-out" type="button" class="btn-logout btn-menu dynapuff-regular w-100">Exit</button>

@@ -1310,7 +1310,7 @@
             <li class="nav-item"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facility' ? 'active' : '') : '' }}" href="/facility"><span class="visit-label text-lg">
               Facility <i class="bi bi-caret-down-fill"></i>
             </span></a></li>
-            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facts' ? 'active' : '') : '' }}" ><span class="visit-label text-lg">
+            <li class="nav-item custom-dropdown"><a class="nav-link visit-btn {{ session('page') && session('page')->page ? (session('page')->page == 'facts' ? 'active' : '') : '' }}" href="#"  ><span class="visit-label text-lg">
               Others <i class="bi bi-caret-down-fill"></i>
               </span></a>
               <ul class="dropdown-menu custom-dropdown-menu">
@@ -1397,7 +1397,7 @@
       </div>
 
       {{-- HISTORY --}}
-        @if (session('role') != null)
+        @if (session('role') == 'student')
           @if (count($histories) !== 0)
             <h2 class="container-title wave-title mb-5">
               <span>📖</span><span>Hi</span><span>st</span><span>ory</span> 
